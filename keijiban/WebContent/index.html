@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="ja">
-	<head>
-		<title>掲示板</title>
-	</head>
-	<body>
-		<h1>掲示板</h1>
-<div class="keijiban">
-        </div>
+<head>
+<title>掲示板</title>
+</head>
+<body>
+	<h1>掲示板</h1>
+	<div class="keijiban"></div>
 
-        <hr/>
-		<i>gt-tasks-project keijiban 2017</i>
+	<hr />
+	<i>gt-tasks-project keijiban 2017</i>
 
-		<script src="dwr/engine.js"></script>
-		<script src="dwr/util.js"></script>
-		<script src="dwr/interface/Keijiban.js"></script>
+	<script src="dwr/engine.js"></script>
+	<script src="dwr/util.js"></script>
+	<script src="dwr/interface/Keijiban.js"></script>
 
-		<script src="js/jquery-2.1.4.min.js"></script>
-		<script src="js/jquery.serialize.js"></script>
-		<script src="js/script.js"></script>
-	</body>
+	<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/jquery.serialize.js"></script>
+	<script src="js/script.js"></script>
+	<form id="toukou">
+		<input id="roomInput" name="room" type="hidden" value="test" />
+		<h4>おなまえ</h4>
+		<input name="name" type="text" /><br>
+		<h4>本文</h4>
+		<textarea name="message" cols=100 rows=5></textarea>
+		<button type="button" class="less">投稿</button>
+	</form>
+
+	<hr />
+</body>
 </html>
