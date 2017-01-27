@@ -35,8 +35,13 @@ public class Keijiban {
 	 */
 	public boolean postMessage(PostForm post){
 		//TODO: 投稿登録メソッドの実装
+		KeijibanDB db = new KeijibanDB();
 
-		return true;
+        db.postMessage(post.getName(), post.getRoom(), post.getMessage());
+
+        db.closeClient();
+        return true;
+
 	}
 
 	/**

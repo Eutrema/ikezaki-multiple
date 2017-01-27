@@ -1,5 +1,7 @@
 package jp.ac.oit.igakilab.dwr.keijiban;
 
+import java.util.Calendar;
+
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
@@ -59,6 +61,12 @@ public class KeijibanDB {
 	 */
 	public void postMessage(String name, String room, String message){
 		//TODO: DBへの投稿機能を実装
+		Document doc = new Document("name", name)
+	            .append("room", room)
+	            .append("message", message)
+	            .append("time", Calendar.getInstance().getTime());
+
+	    getCollection().insertOne(doc);
 
 	}
 
@@ -79,4 +87,7 @@ public class KeijibanDB {
 	public void closeClient(){
 		client.close();
 	}
+
+
+
 }
