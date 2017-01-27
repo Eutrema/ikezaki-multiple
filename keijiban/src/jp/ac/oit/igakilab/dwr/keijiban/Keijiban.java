@@ -50,6 +50,16 @@ public class Keijiban {
 	 */
 	public List<String> getRoomList(){
 		//TODO: 部屋リスト取得メソッドの実装
-		return Arrays.asList("sample-room1", "sample-room2");
+		 KeijibanDB db = new KeijibanDB();
+
+	        List<String> rooms = new ArrayList<String>();
+	        for(Document doc : db.getRoomList()){
+	            rooms.add(doc.getString("_id"));
+	        }
+
+	        db.closeClient();
+	        return rooms;
+
+
 	}
 }
