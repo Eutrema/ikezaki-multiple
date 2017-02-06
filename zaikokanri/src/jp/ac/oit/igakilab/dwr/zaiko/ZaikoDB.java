@@ -60,11 +60,11 @@ public class ZaikoDB {
 	 * DBに登録されている商品の残りの在庫数を取得します
 	 * @return DBカーソル
 	 */
-	public AggregateIterable<Document> getItemList(){
-		//TODO: 在庫数のリストを取得する機能の実装
-
-		return null;
-	}
+    public AggregateIterable<Document> getItemList(){
+        //入荷/出荷データの合計を計算する
+        return getCollection().aggregate(Arrays.asList(
+            Aggregates.group("$name", Accumulators.sum("qty", "$amount"))));
+    }
 
 	/**
 	 * 在庫DBに商品を追加します
