@@ -1,6 +1,7 @@
 package jp.ac.oit.igakilab.dwr.zaiko;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.bson.Document;
@@ -59,11 +60,11 @@ public class ZaikoDB {
 	 * DBに登録されている商品の残りの在庫数を取得します
 	 * @return DBカーソル
 	 */
-	public AggregateIterable<Document> getItemList(){
-		//TODO: 在庫数のリストを取得する機能の実装
-
-		return null;
-	}
+    public AggregateIterable<Document> getItemList(){
+        //入荷/出荷データの合計を計算する
+        return getCollection().aggregate(Arrays.asList(
+            Aggregates.group("$name", Accumulators.sum("qty", "$amount"))));
+    }
 
 	/**
 	 * 在庫DBに商品を追加します
@@ -71,9 +72,12 @@ public class ZaikoDB {
 	 * @param amount 追加数
 	 */
 	public void receiveItem(String itemName, int amount){
-		//TODO: DBに入庫を記録する機能の実装
-	}
+        Document doc = new Document("name", itemName)
+            .append("amount", amount)
+            .append("time", Calendar.getInstance().getTime());
 
+        getCollection().insertOne(doc);
+    }
 	/**
 	 * 在庫DBから商品を出庫します
 	 * もし、在庫が足りていない場合はfalseを返却し、出庫処理は行いません
