@@ -4,36 +4,31 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.bson.Document;
+
 public class Zaiko {
 	/**
 	 * 在庫DBに登録されている商品とその商品の在庫数のリストを取得します
 	 * ItemFormの値にはnameとamountのみ値を設定します
 	 * @return 商品と在庫数のリスト(ItemFormの配列)
 	 */
-	public List<ItemForm> getItemList(){
-		//TODO: 在庫リスト取得メソッドの実装
+	 public List<ItemForm> getItemList(){
+        ZaikoDB db = new ZaikoDB();
 
-		//ダミーデータを作成
-		List<ItemForm> dummy = new ArrayList<ItemForm>();
-		Calendar cal = Calendar.getInstance();
-		ItemForm i;
+        List<ItemForm> items = new ArrayList<ItemForm>();
 
-		cal.add(Calendar.MINUTE, -4);
-		i = new ItemForm();
-		i.setName("コーラ");
-		i.setAmount(30);
-		i.setTime(cal.getTime());
-		dummy.add(i);
+        for(Document doc : db.getItemList()){
+            ItemForm tmp = new ItemForm();
+            tmp.setName(doc.getString("_id"));
+            tmp.setAmount(doc.getInteger("qty", 0));
 
-		cal.add(Calendar.MINUTE, 2);
-		i = new ItemForm();
-		i.setName("ポテトチップス");
-		i.setAmount(10);
-		i.setTime(cal.getTime());
-		dummy.add(i);
+            items.add(tmp);
+        }
 
-		return dummy;
-	}
+        db.closeClient();
+        return items;
+
+    }
 
 	/**
 	 * 在庫DBに商品を追加します
@@ -87,4 +82,5 @@ public class Zaiko {
 
 		return dummy;
 	}
+
 }
