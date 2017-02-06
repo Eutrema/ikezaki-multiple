@@ -14,6 +14,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 
 /**
  * DBにアクセスするためのクラスです
@@ -85,6 +86,8 @@ public class ZaikoDB {
 	 * @param amount 出庫(依頼)数
 	 * @return 在庫があり、出庫処理が成功すればtrue
 	 */
+
+
 	public boolean issueItem(String itemName, int amount){
 		//TODO: DBに出庫を記録する機能の実装
 
@@ -97,11 +100,11 @@ public class ZaikoDB {
 	 * @param itemName 商品名
 	 * @return DBカーソル
 	 */
-	public FindIterable<Document> getItemReceipts(String itemName){
-		//TODO: DBから入出荷の履歴を取得する機能を実装
-
-		return null;
-	}
+	 public FindIterable<Document> getItemReceipts(String itemName){
+	        return getCollection()
+	            .find(Filters.eq("name", itemName))
+	            .sort(Sorts.ascending("time"));
+	    }
 
 	/**
 	 * DBをクローズします
