@@ -1,7 +1,6 @@
 package jp.ac.oit.igakilab.dwr.zaiko;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.bson.Document;
@@ -60,29 +59,22 @@ public class Zaiko {
 	 * @return 出入庫の履歴
 	 *
 	 */
+
 	public List<ItemForm> getItemHistory(String itemName){
-		//TODO: 入出荷履歴取得メソッドの実装
+        ZaikoDB db = new ZaikoDB();
 
-		//ダミーデータを作成
-		List<ItemForm> dummy = new ArrayList<ItemForm>();
-		Calendar cal = Calendar.getInstance();
-		ItemForm i;
+        List<ItemForm> history = new ArrayList<ItemForm>();
+        for(Document doc : db.getItemReceipts(itemName)){
+            ItemForm tmp = new ItemForm();
+            tmp.setName(doc.getString("name"));
+            tmp.setAmount(doc.getInteger("amount", 0));
+            tmp.setTime(doc.getDate("time"));
 
-		cal.add(Calendar.MINUTE, -4);
-		i = new ItemForm();
-		i.setName("ジンジャエール");
-		i.setAmount(30);
-		i.setTime(cal.getTime());
-		dummy.add(i);
+            history.add(tmp);
+        }
 
-		cal.add(Calendar.MINUTE, 2);
-		i = new ItemForm();
-		i.setName("ジンジャエール");
-		i.setAmount(-10);
-		i.setTime(cal.getTime());
-		dummy.add(i);
-
-		return dummy;
-	}
+        db.closeClient();
+        return history;
+    }
 
 }
