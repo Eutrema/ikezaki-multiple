@@ -47,11 +47,14 @@ public class Zaiko {
 	 * @param req 商品名と出庫数量のデータ(ItemForm)
 	 * @return 成功した時true, 在庫数が足りないとき、失敗した時false
 	 */
-	public boolean issueItem(ItemForm req){
-		//TODO: 出庫メソッドの実装
+    public boolean issueItem(ItemForm req){
+        ZaikoDB db = new ZaikoDB();
 
-		return true;
-	}
+        boolean res = db.issueItem(req.getName(), req.getAmount());
+
+        db.closeClient();
+        return res;
+    }
 
 	/**
 	 * 商品の出入の履歴を取得します
